@@ -1,4 +1,4 @@
-#This project utilizes the following Superstore data: 
+#This project utilizes the following Fortune 500 Companies data: 
 
 CREATE TABLE fortune_companies (
     company_id INTEGER PRIMARY KEY,
