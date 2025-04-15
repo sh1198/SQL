@@ -1,0 +1,254 @@
+--Climate Conference Database: https://www.db-fiddle.com/f/pxMci1sLL945KHKYvpe9W6/1
+
+The following project analyzes the Climate Conference Database consisting of 4 tables and 
+displays the results from the following 7 queries written in SQLite.
+---
+
+**Query #1**
+
+    --1. Select the first name and last name of all members that have a dinner rsvp.
+    
+    SELECT vips.first_name, vips.last_name, reservations.dinner_rsvp
+    FROM vips
+    INNER JOIN reservations 
+    ON vips.member_id=reservations.member_id
+    WHERE reservations.dinner_rsvp='1';
+
+| first_name | last_name | dinner_rsvp |
+| ---------- | --------- | ----------- |
+| Victor     | Gonzalez  | 1           |
+| Daniel     | Riley     | 1           |
+| Aarav      | Singh     | 1           |
+| Amina      | Al-Hassan | 1           |
+| Nathan     | Chang     | 1           |
+| Leah       | Bennett   | 1           |
+| Harper     | Roy       | 1           |
+| Anika      | Patel     | 1           |
+| Shanae     | Anderson  | 1           |
+| Isabella   | Martinez  | 1           |
+| Jiho       | Kim       | 1           |
+| Sofia      | Rodriguez | 1           |
+| Linh       | Nguyen    | 1           |
+| Thiago     | Silva     | 1           |
+| David      | Fletcher  | 1           |
+| Denny      | Johnson   | 1           |
+| Dmitri     | Ivanov    | 1           |
+| Juan       | Rivera    | 1           |
+| Alex       | Kowalski  | 1           |
+| Timothy    | Brown     | 1           |
+| K. L.      | Denton    | 1           |
+| Beverly    | Chen      | 1           |
+| Aisling    | Murphy    | 1           |
+| Min-Jun    | Lee       | 1           |
+| Mateo      | Garcia    | 1           |
+
+---
+**Query #2**
+
+    
+    
+    --2. Select the first name and last name, of all members and their member id's, whether or not they have a dinner rsvp.
+    
+    SELECT vips.first_name, vips.last_name, reservations.member_id,reservations.dinner_rsvp
+    FROM vips
+    LEFT JOIN reservations
+    ON vips.member_id=reservations.member_id
+    ORDER BY reservations.member_id DESC;
+
+| first_name | last_name | member_id | dinner_rsvp |
+| ---------- | --------- | --------- | ----------- |
+| Leah       | Bennett   | 4402      | 1           |
+| Thiago     | Silva     | 4386      | 1           |
+| Daniel     | Riley     | 4361      | 1           |
+| Priya      | Shepherd  | 4315      | 0           |
+| Nathan     | Chang     | 4003      | 1           |
+| Dmitri     | Ivanov    | 3960      | 1           |
+| Harper     | Roy       | 3891      | 1           |
+| Alex       | Kowalski  | 3889      | 1           |
+| Amina      | Al-Hassan | 3775      | 1           |
+| Timothy    | Brown     | 3742      | 1           |
+| K. L.      | Denton    | 3719      | 1           |
+| Victor     | Gonzalez  | 3491      | 1           |
+| Shanae     | Anderson  | 3490      | 1           |
+| Beverly    | Chen      | 3460      | 1           |
+| Isabella   | Martinez  | 3189      | 1           |
+| Aisling    | Murphy    | 3077      | 1           |
+| Aarav      | Singh     | 3047      | 1           |
+| David      | Fletcher  | 2814      | 1           |
+| Min-Jun    | Lee       | 2800      | 1           |
+| Juan       | Rivera    | 2731      | 1           |
+| Sofia      | Rodriguez | 2716      | 1           |
+| Linh       | Nguyen    | 2551      | 1           |
+| Keisha     | Haines    | 2091      | 0           |
+| Anika      | Patel     | 2011      | 1           |
+| Jiho       | Kim       | 1944      | 1           |
+| Mateo      | Garcia    | 1934      | 1           |
+| Denny      | Johnson   | 1738      | 1           |
+| Lucia      | Fernandez |           |             |
+| Moss       | Parker    |           |             |
+| Ifeoma     | Chukwu    |           |             |
+
+---
+**Query #3**
+
+    
+    
+    --3. Display how many vips have been a member since 2015 and after, the name of the hotel they are staying at, 
+        the number of the event they are attending, and also include the name of the event.
+    
+    SELECT COUNT(vips.member_id) AS number_of_vips,
+    vips.member_since,
+    hotels.hotel_name,
+    vips.event,
+    events.event_name
+    FROM vips
+    JOIN reservations
+    ON vips.member_id=reservations.member_id
+    JOIN hotels 
+    ON reservations.hotel=hotels.hotel_id
+    JOIN events 
+    ON vips.event=events.event_id
+    WHERE vips.member_since >= '2015'
+    GROUP BY hotels.hotel_name, vips.event, events.event_name;
+
+| number_of_vips | member_since | hotel_name     | event | event_name                                                      |
+| -------------- | ------------ | -------------- | ----- | --------------------------------------------------------------- |
+| 1              | 2015         | Four Season's  | 4     | Biodiversity and Ecosystem Services in a Changing Climate       |
+| 1              | 2017         | Four Season's  | 8     | Climate Justice and Equity: Addressing Disproportionate Impacts |
+| 1              | 2015         | Four Season's  | 9     | The Economic Impact of Climate Change: Costs and Opportunities  |
+| 1              | 2022         | Four Season's  | 10    | Technological Innovations for Climate Monitoring and Assessment |
+| 2              | 2023         | Hyatt Downtown | 6     | The Role of Oceans in Climate Change: Impacts and Solutions     |
+
+---
+**Query #4**
+
+    
+    
+    --4. Combine the first and last names of the vips into one column and display which hotel they are staying at.
+    
+    SELECT first_name || ' ' || last_name AS full_name, hotels.hotel_name
+    FROM vips
+    JOIN reservations
+    ON vips.member_id=reservations.member_id
+    JOIN hotels 
+    ON reservations.hotel=hotels.hotel_id;
+
+| full_name         | hotel_name     |
+| ----------------- | -------------- |
+| Victor Gonzalez   | Hyatt Downtown |
+| Daniel Riley      | Hyatt Downtown |
+| Aarav Singh       | Marriott       |
+| Amina Al-Hassan   | Hyatt Downtown |
+| Nathan Chang      | Four Season's  |
+| Leah Bennett      | Marriott       |
+| Harper Roy        | Four Season's  |
+| Anika Patel       | Hyatt Downtown |
+| Shanae Anderson   | Hyatt Downtown |
+| Isabella Martinez | Hyatt Downtown |
+| Jiho Kim          | Hyatt Downtown |
+| Sofia Rodriguez   | Marriott       |
+| Linh Nguyen       | Marriott       |
+| Thiago Silva      | Marriott       |
+| David Fletcher    | Four Season's  |
+| Denny Johnson     | Marriott       |
+| Dmitri Ivanov     | Hyatt Downtown |
+| Priya Shepherd    | Four Season's  |
+| Juan Rivera       | Four Season's  |
+| Keisha Haines     | Hyatt Downtown |
+| Alex Kowalski     | Four Season's  |
+| Timothy Brown     | Marriott       |
+| K. L. Denton      | Marriott       |
+| Beverly Chen      | Marriott       |
+| Aisling Murphy    | Marriott       |
+| Min-Jun Lee       | Marriott       |
+| Mateo Garcia      | Four Season's  |
+
+---
+**Query #5**
+
+    
+    
+--5.SELF JOIN: Find VIPs who provide feedback to others and the corresponding VIPs who receive their feedback. 
+          Include the first name and member id, so there is no need to add ann extra column for the last names.
+    
+    SELECT vips1.member_id,
+    vips1.first_name AS provide_feedback,
+    vips2.first_name AS receive_feedback
+    FROM vips as vips1
+    JOIN vips as vips2
+    ON vips1.provides_feedback_to =vips2.member_id;
+
+| member_id | provide_feedback | receive_feedback |
+| --------- | ---------------- | ---------------- |
+| 1944      | Jiho             | Moss             |
+| 2011      | Anika            | Victor           |
+| 2091      | Keisha           | Isabella         |
+| 2551      | Linh             | Keisha           |
+| 2716      | Sofia            | Amina            |
+| 2731      | Juan             | Ifeoma           |
+| 2814      | David            | Timothy          |
+| 3047      | Aarav            | Linh             |
+| 3077      | Aisling          | Juan             |
+| 3189      | Isabella         | Anika            |
+| 3460      | Beverly          | Daniel           |
+| 3490      | Shanae           | Priya            |
+| 3491      | Victor           | Aarav            |
+| 3719      | K. L.            | Alex             |
+| 3742      | Timothy          | Shanae           |
+| 3775      | Amina            | Harper           |
+| 3889      | Alex             | Beverly          |
+| 3891      | Harper           | Aisling          |
+| 3960      | Dmitri           | David            |
+| 4003      | Nathan           | Dmitri           |
+| 4230      | Moss             | K. L.            |
+| 4297      | Ifeoma           | Sofia            |
+| 4315      | Priya            | Nathan           |
+| 4361      | Daniel           | Jiho             |
+
+---
+**Query #6**
+
+    
+    
+    --6. Display the event name and which type of event it is that is being held at this Climate Conference. 
+       List the event types in alphabetical order.
+    
+SELECT event_name,event_type
+    FROM events
+    ORDER BY event_type ASC;
+
+| event_name                                                          | event_type |
+| ------------------------------------------------------------------- | ---------- |
+| Climate Change Communication: Engaging the Public and Policy Makers | Keynote    |
+| Climate Change and Public Health: Risks and Responses               | Panel      |
+| Climate Change and Agriculture: Ensuring Food Security              | Panel      |
+| Biodiversity and Ecosystem Services in a Changing Climate           | Panel      |
+| Indigenous Knowledge and Climate Change Adaptation                  | Panel      |
+| The Role of Oceans in Climate Change: Impacts and Solutions         | Panel      |
+| Climate Change and Renewable Energy: Innovations and Challenges     | Panel      |
+| Climate Justice and Equity: Addressing Disproportionate Impacts     | Panel      |
+| The Economic Impact of Climate Change: Costs and Opportunities      | Panel      |
+| Technological Innovations for Climate Monitoring and Assessment     | Workshop   |
+| Urban Resilience: Designing Climate-Smart Cities                    | Workshop   |
+| The Role of Policy in Combating Climate Change                      | Workshop   |
+
+---
+**Query #7**
+
+    
+    
+    --7. Select the first name and last name of all the vip members that have a welcome rsvp, but not a dinner rsvp.
+    
+    SELECT vips.first_name, vips.last_name, reservations.welcome_rsvp, reservations.dinner_rsvp
+    FROM vips
+    JOIN reservations
+    ON vips.member_id=reservations.member_id
+    WHERE reservations.welcome_rsvp='1'
+    AND reservations.dinner_rsvp <> '1';
+
+| first_name | last_name | welcome_rsvp | dinner_rsvp |
+| ---------- | --------- | ------------ | ----------- |
+| Priya      | Shepherd  | 1            | 0           |
+| Keisha     | Haines    | 1            | 0           |
+
+---
