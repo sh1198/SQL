@@ -24,7 +24,6 @@ duration_ms integer NOT NULL,
 time_signature integer NOT NULL 
 )
 
-# The following queries
 
 
 
