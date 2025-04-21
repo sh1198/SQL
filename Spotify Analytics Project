@@ -1,0 +1,86 @@
+# For this project, I downloaded Spotify data from Kaggle.
+# I used SQL to explore and analyze Spotify's Top 50 songs dataset (2021).  
+# All queries were written and tested using SQLite and focus on metrics like popularity, danceability, and artist performance.
+
+#Creating the table: 
+CREATE TABLE BIT_DB.Spotifydata (
+id integer PRIMARY KEY,
+artist_name varchar NOT NULL,
+track_name varchar NOT NULL,
+track_id varchar NOT NULL,
+popularity integer NOT NULL,
+danceability decimal(4,3) NOT NULL,
+energy decimal(4,3) NOT NULL,
+key integer NOT NULL,
+loudness decimal(5,3) NOT NULL,
+mode integer NOT NULL,
+speechiness decimal(5,4) NOT NULL,
+acousticness decimal(6,5) NOT NULL,
+instrumentalness text NOT NULL,
+liveness decimal(5,4) NOT NULL,
+valence decimal(4,3) NOT NULL,
+tempo decimal(6,3) NOT NULL,
+duration_ms integer NOT NULL,
+time_signature integer NOT NULL 
+)
+
+# The following queries
+
+
+
+--1. What is the average danceability by artist and track? 
+SELECT AVG(danceability) AS average_danceability,artist_name, track_name
+FROM BIT_DB.Spotifydata
+GROUP BY artist_name, track_name;
+
+--2. Who are the top 10 artists based on popularity? 
+SELECT artist_name, popularity
+FROM BIT_DB.Spotifydata
+WHERE popularity > 89
+GROUP BY artist_name
+ORDER BY popularity
+LIMIT 10;
+
+--3. What artist released the longest song? 
+SELECT artist_name, MAX(duration_ms)
+FROM BIT_DB.Spotifydata;
+
+--4. What are the top 5 songs with the highest danceability?
+SELECT track_name, artist_name, danceability
+FROM Spotifydata
+WHERE danceability > 0.799
+LIMIT 5;
+
+--5 Combine the artist name column with its track name, then show the song with the shortest duration.
+SELECT track_name ||' - ' || artist_name AS artist_song, MIN(duration_ms) AS shortest_song
+FROM Spotifydata;
+
+--6.What is the average danceability of the 10 most popular songs?
+SELECT AVG(danceability) AS average_danceability
+FROM (SELECT danceability FROM Spotifydata ORDER BY popularity DESC LIMIT 10) 
+AS top_10_songs;
+
+--7. List all songs by artists, The Weeknd and Olivia Rodrigo in order by popularity.
+SELECT popularity, track_name ||' - ' || artist_name AS artist_song
+FROM Spotifydata
+WHERE artist_name IN ('The Weeknd','Olivia Rodrigo')
+ORDER BY popularity DESC;
+
+--8. Find all songs that contain the word 'you'. Include which artist the song is by.
+SELECT track_name, artist_name
+FROM Spotifydata
+WHERE track_name LIKE '%you%';
+
+--9. Which track has lowest danceability?
+SELECT track_name ||' - ' || artist_name AS artist_song, MIN(danceability) AS lowest_danceability
+FROM Spotifydata;
+
+--10. Which songs have a feature? What is their popularity?
+SELECT track_name, artist_name, popularity
+FROM Spotifydata
+WHERE track_name LIKE '%feat%';
+
+--11. Which songs have the lowest popularity level?
+SELECT track_name, artist_name, popularity
+FROM Spotifydata
+WHERE popularity < 70;
