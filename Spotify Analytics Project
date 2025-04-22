@@ -83,3 +83,15 @@ WHERE track_name LIKE '%feat%';
 SELECT track_name, artist_name, popularity
 FROM Spotifydata
 WHERE popularity < 70;
+
+--12. Calculate the average popularity for the artists in the Spotify data table. 
+    --Then, for every artist with an average popularity of 90 or above, show their name, 
+        --their average popularity, and label them as a “Top Star”.
+
+WITH average_popularity_cte AS (
+SELECT artist_name, AVG(popularity) AS average_popularity
+FROM Spotifydata
+GROUP BY artist_name)
+SELECT artist_name, average_popularity, 'Top Star' AS Label
+FROM average_popularity_cte
+WHERE average_popularity >= 90; 
