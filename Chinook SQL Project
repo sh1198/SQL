@@ -14,3 +14,21 @@ from customers
 left join Invoices
 ON customers.CustomerID=Invoices.InvoiceId
 where Country LIKE 'Brazil';
+
+--4. Show the Employees who are Sales Agents.
+select FirstName, LastName, Title
+from employees
+where Title LIKE '%Sales Support Agent%';
+
+--5.Find a unique/distinct list of billing countries from the Invoice table
+select DISTINCT BillingCountry 
+from Invoices;
+
+--6.Provide a query that shows the invoices associated with each sales agent. The resulting table should include the Sales Agent's full name.
+select emp.FirstName, emp.LastName, emp.Title, Inv.InvoiceID
+from employees as emp
+inner join customers as cust
+ON cust.SupportRepID=emp.EmployeeID
+inner join Invoices as Inv
+ON Inv.CustomerID=cust.CustomerID
+where Title LIKE '%Sales Support Agent%';
