@@ -32,3 +32,45 @@ ON cust.SupportRepID=emp.EmployeeID
 inner join Invoices as Inv
 ON Inv.CustomerID=cust.CustomerID
 where Title LIKE '%Sales Support Agent%';
+
+--7. Show the Invoice Total, Customer name, Country, and Sales Agent name for all invoices and customers.
+select invoices.Total, cust.FirstName as Cust_FirstName, cust.LastName as Cust_LastName, cust.Country, emp.FirstName as Emp_FirstName, emp.LastName as Emp_LastName, emp.Title
+from chinook.employees as emp
+join chinook.customers as cust
+on cust.SupportRepID=emp.EmployeeID
+join chinook.invoices
+on invoices.CustomerId=cust.CustomerID;
+
+--8. How many Invoices were there in 2009?
+select COUNT(InvoiceDate)
+from chinook.invoices 
+where InvoiceDate like '%2009%';
+
+--9. What are the total sales for 2009?
+select SUM(Total) as total_sales, InvoiceDate
+from chinook.invoices 
+where InvoiceDate like '%2009%';
+
+--10. Write a query that includes the purchased track name with each invoice line ID.
+select invoice_items.InvoiceLineId, tracks.Name
+from invoice_items
+inner join tracks
+on invoice_items.TrackId = tracks.TrackId;
+
+--can also use the following query...
+
+select invoice_items.InvoiceLineId, tracks.Name
+from tracks
+left join invoice_items
+on tracks.TrackId = invoice_items.TrackId 
+where InvoiceLineID is not null;
+
+--11. Write a query that includes the purchased track name AND artist name with each invoice line ID.
+select invoice_items.InvoiceLineId, tracks.Name as track_name, artists.Name as artist_name
+from invoice_items
+left join tracks
+on invoice_items.TrackId=tracks.TrackId
+inner join albums
+on tracks.AlbumId=albums.AlbumId
+left join artists
+on albums.ArtistId=artists.ArtistId;
