@@ -1,0 +1,16 @@
+--1. Show Customers (their full names, customer ID, and country) who are not in the US.
+select CustomerId, FirstName, LastName, Country 
+from customers 
+where Country <> 'USA';
+
+--2. Show only the Customers from Brazil.
+select CustomerId, FirstName, LastName, Country 
+from customers
+where Country LIKE '%Brazil%';
+
+--3. Find the Invoices of customers who are from Brazil. The resulting table should show the customer's full name, Invoice ID, Date of the invoice, and billing country.
+select FirstName, LastName,Country, InvoiceID, InvoiceDate, BillingCountry
+from customers
+left join Invoices
+ON customers.CustomerID=Invoices.InvoiceId
+where Country LIKE 'Brazil';
