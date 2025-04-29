@@ -111,3 +111,7 @@ where e.Title = 'Sales Support Agent'
 and I.InvoiceDate like '2009%' 
 group by e.FirstName
 order by (round(sum(i.Total), 2)) desc limit 1;
+
+--16. Get the average of total invoices rounded to 0 decimal places.
+select (ROUND(AVG(Total),0)) as average_total_invoices
+from chinook.invoices;
