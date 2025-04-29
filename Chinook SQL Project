@@ -12,13 +12,13 @@ where Country LIKE '%Brazil%';
 select FirstName, LastName,Country, InvoiceID, InvoiceDate, BillingCountry
 from customers
 left join Invoices
-ON customers.CustomerID=Invoices.InvoiceId
-where Country LIKE 'Brazil';
+on customers.CustomerID=Invoices.InvoiceId
+where Country like 'Brazil';
 
 --4. Show the Employees who are Sales Agents.
 select FirstName, LastName, Title
 from employees
-where Title LIKE '%Sales Support Agent%';
+where Title like '%Sales Support Agent%';
 
 --5.Find a unique/distinct list of billing countries from the Invoice table
 select DISTINCT BillingCountry 
@@ -28,10 +28,10 @@ from Invoices;
 select emp.FirstName, emp.LastName, emp.Title, Inv.InvoiceID
 from employees as emp
 inner join customers as cust
-ON cust.SupportRepID=emp.EmployeeID
+on cust.SupportRepID=emp.EmployeeID
 inner join Invoices as Inv
-ON Inv.CustomerID=cust.CustomerID
-where Title LIKE '%Sales Support Agent%';
+on Inv.CustomerID=cust.CustomerID
+where Title like '%Sales Support Agent%';
 
 --7. Show the Invoice Total, Customer name, Country, and Sales Agent name for all invoices and customers.
 select invoices.Total, cust.FirstName as Cust_FirstName, cust.LastName as Cust_LastName, cust.Country, emp.FirstName as Emp_FirstName, emp.LastName as Emp_LastName, emp.Title
@@ -74,3 +74,40 @@ inner join albums
 on tracks.AlbumId=albums.AlbumId
 left join artists
 on albums.ArtistId=artists.ArtistId;
+
+--12. Provide a query that shows all the Tracks, and include the Album name, Media type, and Genre.
+select t.Name as 'Track Name' , a.Title as 'Album Name', mt.Name as 'Media Type', g.Name as 'Genre'
+from tracks as t
+join albums as a
+on t.AlbumId=a.AlbumID
+join media_types as mt
+on t.MediaTypeID=mt.MediaTypeID
+join genres as g
+on t.GenreId=g.GenreID;
+
+--13. Show the total sales made by each sales agent.
+select emp.FirstName, emp.LastName, ROUND(SUM(i.Total),2) as total_sales, emp.Title
+from chinook.employees as emp
+join customers as c
+on c.SupportRepID=emp.EmployeeID
+inner join invoices as i
+on i.CustomerID=c.CustomerID
+GROUP BY emp.FirstName;
+
+--14. List the emails of customers that have an order.
+select c.Email, i.CustomerID
+from customers as c
+left join invoices as i
+on c.CustomerID=i.CustomerID;
+
+--15. Which sales agent made the most dollars in sales in 2009?
+select e.FirstName, e.LastName, ROUND(SUM(i.Total), 2) as 'Total Sales' 
+from chinook.employees as e
+join customers as c
+on e.EmployeeID=c.SupportRepID
+join chinook.Invoices as i
+on i.CustomerId=c.CustomerId
+where e.Title = 'Sales Support Agent' 
+and I.InvoiceDate like '2009%' 
+group by e.FirstName
+order by (round(sum(i.Total), 2)) desc limit 1;
