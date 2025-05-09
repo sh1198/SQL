@@ -1,4 +1,4 @@
-#This project utilizes the following Fortune 500 Companies data: 
+#This project utilizes the following Fortune 500 Companies data using a fake database, in which I wrote some queries in SQL to return statistics about the data.
 
 CREATE TABLE fortune_companies (
     company_id INTEGER PRIMARY KEY,
@@ -59,8 +59,7 @@ VALUES
     ('Company KK', 'Healthcare', 150.2, 3400, 0, 16, 8, 5.3);
 
 
-# My Project 
---1. Using a fake database created about Fortune 500 companies, I wrote 6 queries in SQL to return statistics about the data.
+--1. Select all data from fortune_companies table.
 
 SELECT *
 FROM fortune_companies;
