@@ -1,3 +1,6 @@
+#Using data from 11 tables in a Chinook database, I performed an analysis on customer demographics, invoice history, sales agents, 
+ and music purchases to uncover key insights and answer real-world business questions using SQL.
+
 --1. Show Customers (their full names, customer ID, and country) who are not in the US.
 select CustomerId, FirstName, LastName, Country 
 from customers 
