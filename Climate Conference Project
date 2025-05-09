@@ -1,9 +1,9 @@
---Climate Conference Database: https://www.db-fiddle.com/f/pxMci1sLL945KHKYvpe9W6/1
-
-The following project analyzes the Climate Conference Database consisting of 4 tables and 
+# The following project analyzes the Climate Conference Database consisting of 4 tables and 
 displays the results from the following 7 queries written in SQLite.
----
 
+# Climate Conference Database: https://www.db-fiddle.com/f/pxMci1sLL945KHKYvpe9W6/1
+
+---
 
  --1. Select the first name and last name of all members that have a dinner rsvp.
     
