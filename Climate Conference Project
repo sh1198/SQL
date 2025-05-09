@@ -4,9 +4,8 @@ The following project analyzes the Climate Conference Database consisting of 4 t
 displays the results from the following 7 queries written in SQLite.
 ---
 
-**Query #1**
 
-    --1. Select the first name and last name of all members that have a dinner rsvp.
+ --1. Select the first name and last name of all members that have a dinner rsvp.
     
     SELECT vips.first_name, vips.last_name, reservations.dinner_rsvp
     FROM vips
@@ -43,11 +42,7 @@ displays the results from the following 7 queries written in SQLite.
 | Mateo      | Garcia    | 1           |
 
 ---
-**Query #2**
-
-    
-    
-    --2. Select the first name and last name, of all members and their member id's, whether or not they have a dinner rsvp.
+--2. Select the first name and last name, of all members and their member id's, whether or not they have a dinner rsvp.
     
     SELECT vips.first_name, vips.last_name, reservations.member_id,reservations.dinner_rsvp
     FROM vips
@@ -89,11 +84,7 @@ displays the results from the following 7 queries written in SQLite.
 | Ifeoma     | Chukwu    |           |             |
 
 ---
-**Query #3**
-
-    
-    
-    --3. Display how many vips have been a member since 2015 and after, the name of the hotel they are staying at, 
+--3. Display how many vips have been a member since 2015 and after, the name of the hotel they are staying at, 
         the number of the event they are attending, and also include the name of the event.
     
     SELECT COUNT(vips.member_id) AS number_of_vips,
@@ -120,11 +111,7 @@ displays the results from the following 7 queries written in SQLite.
 | 2              | 2023         | Hyatt Downtown | 6     | The Role of Oceans in Climate Change: Impacts and Solutions     |
 
 ---
-**Query #4**
-
-    
-    
-    --4. Combine the first and last names of the vips into one column and display which hotel they are staying at.
+--4. Combine the first and last names of the vips into one column and display which hotel they are staying at.
     
     SELECT first_name || ' ' || last_name AS full_name, hotels.hotel_name
     FROM vips
@@ -164,10 +151,6 @@ displays the results from the following 7 queries written in SQLite.
 | Mateo Garcia      | Four Season's  |
 
 ---
-**Query #5**
-
-    
-    
 --5.SELF JOIN: Find VIPs who provide feedback to others and the corresponding VIPs who receive their feedback. 
           Include the first name and member id, so there is no need to add ann extra column for the last names.
     
@@ -206,11 +189,7 @@ displays the results from the following 7 queries written in SQLite.
 | 4361      | Daniel           | Jiho             |
 
 ---
-**Query #6**
-
-    
-    
-    --6. Display the event name and which type of event it is that is being held at this Climate Conference. 
+--6. Display the event name and which type of event it is that is being held at this Climate Conference. 
        List the event types in alphabetical order.
     
 SELECT event_name,event_type
@@ -233,11 +212,7 @@ SELECT event_name,event_type
 | The Role of Policy in Combating Climate Change                      | Workshop   |
 
 ---
-**Query #7**
-
-    
-    
-    --7. Select the first name and last name of all the vip members that have a welcome rsvp, but not a dinner rsvp.
+--7. Select the first name and last name of all the vip members that have a welcome rsvp, but not a dinner rsvp.
     
     SELECT vips.first_name, vips.last_name, reservations.welcome_rsvp, reservations.dinner_rsvp
     FROM vips
